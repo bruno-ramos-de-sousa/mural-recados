@@ -8,23 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecadoDAO {
-    public void cadastrar(Recado recado) throws SQLException {
+    public void create(Recado recado) throws SQLException {
         String sql = "INSERT INTO recados (autor, mensagem) VALUES (?, ?);";
 
-        try (Connection connection = Conexao.abrir();
+        try (Connection connection = Connetion.open();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, recado.getAutor());
-            pstmt.setString(2, recado.getMensagem());
+            pstmt.setString(2, recado.getMessage());
             pstmt.executeUpdate();
         }
     }
 
-    public List<Recado> listar() throws SQLException {
+    public List<Recado> list() throws SQLException {
         String sql = "SELECT id, autor, mensagem FROM recados ORDER BY id DESC";
         List<Recado> recados = new ArrayList<>();
 
-        try (Connection connection = Conexao.abrir();
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+        try (Connection connection = Connetion.open();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet resultado = pstmt.executeQuery()) {
 
             while (resultado.next()) {
