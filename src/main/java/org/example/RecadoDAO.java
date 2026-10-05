@@ -8,22 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecadoDAO {
-    public void create(Recado recado) throws SQLException {
-        String sql = "INSERT INTO recados (autor, mensagem) VALUES (?, ?);";
+    public void cadastrar(Recado recado) throws SQLException {
+        String sql = "INSERT INTO recado (autor, mensagem) VALUES (?, ?);";
 
-        try (Connection connection = Connetion.open();
+        try (Connection connection = Conexao.abrir();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, recado.getAutor());
-            pstmt.setString(2, recado.getMessage());
+            pstmt.setString(2, recado.getMensagem());
             pstmt.executeUpdate();
         }
     }
 
-    public List<Recado> list() throws SQLException {
-        String sql = "SELECT id, autor, mensagem FROM recados ORDER BY id DESC";
+    public void deletar(int id) throws SQLException {
+        String sql = "DELETE FROM recado WHERE id = ?";
+
+        try (Connection connection = Conexao.abrir();
+             PreparedStatement pstmt = connection.prepareStatement(sql)
+        ){
+        }
+    }
+
+    public List<Recado> listar() throws SQLException {
+        String sql = "SELECT id, autor, mensagem FROM recado ORDER BY id DESC";
         List<Recado> recados = new ArrayList<>();
 
-        try (Connection connection = Connetion.open();
+        try (Connection connection = Conexao.abrir();
              PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet resultado = pstmt.executeQuery()) {
 

@@ -3,22 +3,22 @@ package org.example;
 public class Recado {
     private final int id;
     private final String autor;
-    private final String message;
+    private final String mensagem;
 
     public Recado(int id, String autor, String mensagem) {
         this.id = id;
         this.autor = autor;
-        this.message = mensagem;
+        this.mensagem = mensagem;
     }
 
     public int getId() { return id; }
     public String getAutor() { return autor; }
-    public String getMessage() { return message; }
+    public String getMensagem() { return mensagem; }
 
     public String toJson() {
         return "{\"id\":" + id
                 + ", \"autor\":\"" + escape(autor) + "\""
-                + ", \"mensagem\":\"" + escape(message) + "\"" +
+                + ", \"mensagem\":\"" + escape(mensagem) + "\"" +
                 "}";
     }
 
