@@ -19,12 +19,34 @@ public class RecadoDAO {
         }
     }
 
-    public void deletar(int id) throws SQLException {
+    public Recado getRecadoById(int id) throws SQLException {
+        String sql = "SELECT id, autor, mensagem FROM recado WHERE id = ?";
+
+        try (Connection connection = Conexao.abrir();
+            PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int idRecado = rs.getInt("id");
+                    String autor = rs.getString("autor");
+                    String mensagem = rs.getString("mensagem");
+
+                    Recado recado = new Recado(idRecado, autor, mensagem);
+
+                }
+                return recado;
+            }
+        }
+
+    }
+
+    public void deletar(Recado recado) throws SQLException {
         String sql = "DELETE FROM recado WHERE id = ?";
 
         try (Connection connection = Conexao.abrir();
-             PreparedStatement pstmt = connection.prepareStatement(sql)
-        ){
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, recado.getId());
+            pstmt.executeQuery();
         }
     }
 

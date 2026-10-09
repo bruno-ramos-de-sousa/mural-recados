@@ -50,6 +50,8 @@ public class Main {
                 listar(exchange);
             } else if (exchange.getRequestMethod().equals("POST")) {
                 cadastrar(exchange);
+            } else if (exchange.getRequestMethod().equals("DELETE")) {
+                deletar(exchange);
             } else {
                 exchange.getRequestHeaders().set("Allow", "GET, POST, OPTIONS");
                 response(exchange, 405, "{\"erro\":\"Método não permitido\"}");
@@ -74,7 +76,12 @@ public class Main {
     }
 
     private static void deletar(HttpExchange exchange) throws SQLException, IOException {
+        Map<String, String> dados = lerFormulario(exchange);
+        int id = Integer.parseInt(dados.getOrDefault("id", "").trim());
 
+        Recado recado = DAO.getRecadoById(id);
+        DAO.deletar(recado);
+        response(exchange, 204);
     }
     
     private static void listar(HttpExchange exchange) throws IOException, SQLException {
@@ -136,5 +143,9 @@ public class Main {
         exchange.sendResponseHeaders(status, responseContent.length);
         exchange.getResponseBody().write(responseContent);
         exchange.close();
+    }
+
+    private static void response(HttpExchange exchange, int status) throws IOException {
+        response(exchange, status);
     }
 }
