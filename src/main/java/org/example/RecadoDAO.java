@@ -32,12 +32,11 @@ public class RecadoDAO {
                     String mensagem = rs.getString("mensagem");
 
                     Recado recado = new Recado(idRecado, autor, mensagem);
-
+                    return recado;
                 }
-                return recado;
             }
         }
-
+        return null;
     }
 
     public void deletar(Recado recado) throws SQLException {
